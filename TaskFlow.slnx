@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/backend/" />
+  <Folder Name="/backend/src/">
+    <Project Path="backend/src/TaskFlow.API/TaskFlow.API.csproj" />
+  </Folder>
+</Solution>

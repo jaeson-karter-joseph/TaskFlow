@@ -1,0 +1,63 @@
+<main class="container">
+    <header>
+        <h1>TaskFlow</h1>
+        <p>Manage your work, one task at a time.</p>
+    </header>
+
+    <section class="create-card">
+        <h2>Create a task</h2>
+
+        <label for="task-title">Task title</label>
+        <input id="task-title" type="text" placeholder="Task title" [(ngModel)]="title" />
+
+        <label for="task-description">Description (optional)</label>
+        <textarea id="task-description" placeholder="Description (optional)" [(ngModel)]="description"></textarea>
+
+        <button (click)="createTask()" [disabled]="!title.trim()">
+            Add Task
+        </button>
+    </section>
+
+    @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+    }
+
+    <section class="task-section">
+        <div class="section-heading">
+            <h2>Your Tasks</h2>
+            <button class="secondary" (click)="loadTasks()">Refresh</button>
+        </div>
+
+        @if (loading) {
+        <p>Loading tasks...</p>
+        } @else if (tasks.length === 0) {
+        <p>No tasks yet. Create your first task!</p>
+        } @else {
+        @for (task of tasks; track task.id) {
+        <article class="task-card">
+            <div>
+                <h3 [class.completed]="task.isCompleted">
+                    {{ task.title }}
+                </h3>
+
+                <p>{{ task.description }}</p>
+
+                <small>
+                    Created: {{ task.createdAtUtc | date:'medium' }}
+                </small>
+            </div>
+
+            <div class="actions">
+                <button class="secondary" (click)="toggleTask(task)">
+                    {{ task.isCompleted ? 'Undo' : 'Complete' }}
+                </button>
+
+                <button class="danger" (click)="deleteTask(task.id)">
+                    Delete
+                </button>
+            </div>
+        </article>
+        }
+        }
+    </section>
+</main>
